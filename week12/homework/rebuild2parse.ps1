@@ -49,44 +49,22 @@ foreach ($u in $drop_urls) {
 
    
 
-   # Create a prompt to allow the user to search for what they want
 
-
-   $roles = @('IPtable','Cisco Deny', 'Windows Firewall')
-   $IP = 'IPtable'
-   $CISCO = 'Cisco Deny'
-   $WINDOWS = 'Windows Firewall' 
-
-   $roles = Read-Host -Prompt "Please specify a rule set you'd like to use between $IP, $CISCO and $WINDOWS"
-
-    switch ( $roles ) {
-        'IPtable'   {  (Get-Content -Path ".\ips-bad.tmp") | % `
-   {$_ -replace "^", "iptables -A  INPUT -s " -replace "$", " -j DROP"} | `
-   Out-File -FilePath "iptables.bash"
-   
-   
-  
-   
-   
-   
-    }
-
-        'Cisco Deny'        { (Get-Content -Path ".\ips-bad.tmp") | % `
-   {$_ -replace "^", "access-list 1 deny host "} | `
-    Out-File -FilePath "ciscodeny.bash" 
-   
-   
-  
-   }
-
-
-        'Windows Firewall' { (Get-Content -Path ".\ips-bad.tmp") | % `
+ (Get-Content -Path ".\ips-bad.tmp") | % `
    {$_ -replace "^", "netsh advfirewall firewall add rule name = 'IP Block' dir=in interface=any action=block remoteip= "} | `
    Out-File -FilePath "windows.bash"
    
   
-   
-   
-    }
+ 
     
-    }
+    #check whether to send an email only
+if (Test-Path ".\windows.bash") {
+
+#Send an email with the host-down.txt attachment
+Send-MailMessage -From "noreply@ryan.local" -To "ryan@ryan.local" `
+-Subject "Host Report." -Body "Reports malicous IPs thats should be blocked" `
+ -Attachments ".\windows.bash." -SmtpServer 10.0.5.4
+
+
+ }
+
