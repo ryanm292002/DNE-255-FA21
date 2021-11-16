@@ -11,7 +11,7 @@ foreach ($u in $drop_urls) {
     
     #the last element in array is the filename
     $file_name = $temp[-1]
-    $thefilename = "list_of_ips.php"
+    $thefilename = "badips.tmp"
 
     if (Test-Path $file_name) {
 
@@ -33,7 +33,7 @@ foreach ($u in $drop_urls) {
    } #close foreach loop
 
    #Array containing the file name 
-   $input_paths = @('.\list_of_ips.php')
+   $input_paths = @('.\badips.tmp')
 
    #extract the ip addresses
    #103.109.247.13
