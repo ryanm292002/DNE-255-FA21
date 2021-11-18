@@ -5,12 +5,12 @@
 
 #134.119.216.167 | CR	Bad Event	214,874	2017-03-18 	2021-11-14
 
-wget https://www.projecthoneypot.org/list_of_ips.php?t=d -O /tmp/access.log
-wget https://www.projecthoneypot.org/list_of_ips.php?t=s -O /tmp/access.log
-wget https://www.projecthoneypot.org/list_of_ips.php?t=p -O /tmp/access.log
+wget https://www.projecthoneypot.org/list_of_ips.php?t=d -O /tmp/access.log-d
+wget https://www.projecthoneypot.org/list_of_ips.php?t=s -O /tmp/access.log-s
+wget https://www.projecthoneypot.org/list_of_ips.php?t=p -O /tmp/access.log-p
 
 
-egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' /tmp/access.log | sort -u | tee badIPs.txt
+egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' /tmp/access.log-* | sort -u | tee badIPs.txt
 
 
 for eachIP in $(cat badIPs.txt)
