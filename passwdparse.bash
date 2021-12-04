@@ -1,16 +1,16 @@
 #!/bin/bash
 
- # Script to parse an Apache Log file
- # wget https://nowire.champlain.edu/access.log
- # 81.19.44.12 - - [30/Sep/2018:06:26:55 -0500] "GET /console HTTP/1.1" 404 444 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50) # Gecko/20100101 Firefox/57.0"
+#Script to parse /etc/passwd
 
- # Create a prompt that requests the location of the file
- read -p "Please enter the apache log file name: " APACHE_LOG
+#root:x:0:0:root:/root:/bin/bash
 
-# Remove the left bracket and the double quotes
-sed -e "s/\[//g" -e "s/\"//g" ${APACHE_LOG} | \
-egrep -i "test|shell|echo|passwd|select|phpmyadmin|setup|admin" | \
-awk ' BEGIN { format = "%-15s %-20s %-7s %-6s %-10s %s\n"
-       printf format,  "IP", "Date", "Method", "Status", "Size", "URI"
-       printf format,  "--", "----", "------", "------", "----", "------"  }
-    { printf  format, $1, $4, $6, $9, $10, $7 }'
+#Create a prompt that requests the location of the file
+read -p "Please enter the apache log file name: " PASSWD
+
+#Username Unused User ID Group ID Comment Home directory Default Shell
+
+awk -F: ' BEGIN { format = "%-20s %-8s %-8s %-25s %s\n"
+	printf format, "Username", "UserID", "GroupID", "Home directory", "Default Shell"
+	printf format, "--------", "------", "-------", "--------------", "------------" }
+	{ printf format, $1, $3, $4, $6, $7 }
+' ${PASSWD}
