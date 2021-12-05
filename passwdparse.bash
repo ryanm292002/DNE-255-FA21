@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#Script to parse /etc/passwd
+#Script for parsing /etc/passwd
 
 #root:x:0:0:root:/root:/bin/bash
 
 #Create a prompt that requests the location of the file
-read -p "Please enter the apache log file name: " PASSWD
+read -p "Please enter the log file name: " PASSWD
 
-#Username Unused User ID Group ID Comment Home directory Default Shell
+#Username User ID Group ID Comment Home directory Default Shell
 
 awk -F: ' BEGIN { format = "%-20s %-8s %-8s %-25s %s\n"
 	printf format, "Username", "UserID", "GroupID", "Home directory", "Default Shell"
